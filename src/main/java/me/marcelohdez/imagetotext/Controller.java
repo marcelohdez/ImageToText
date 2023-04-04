@@ -132,17 +132,15 @@ public class Controller implements WindowListener {
     private double getFullness(BufferedImage image, int x, int y) {
         var rgb = image.getRGB(x, y);
 
-        var c = new Color(
-                (rgb & 0xff0000) >> 16, // red
-                (rgb & 0xff00) >> 8, // green
-                rgb & 0xff, // blue
-                (rgb & 0xff000000) >>> 24 // alpha
-        );
+        var red = (rgb & 0xff0000) >> 16;
+        var green = (rgb & 0xff00) >> 8;
+        var blue = rgb & 0xff;
+        var alpha = (rgb & 0xff000000) >>> 24;
 
         final var MAX_COLOR = 255 + 255 + 255;
         final var MAX_FULLNESS = MAX_COLOR * 255;
 
-        double fullness = (MAX_COLOR - (c.getRed() + c.getGreen() + c.getBlue())) * c.getAlpha();
+        double fullness = (MAX_COLOR - (red + green + blue)) * alpha;
         return fullness / MAX_FULLNESS;
     }
 
