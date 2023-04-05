@@ -12,25 +12,33 @@ import java.io.File;
 import java.util.Optional;
 
 public class Controller implements WindowListener {
-    private static final String CHARACTERS = //" .:-=+*#%@";
-            " .'`^\",:;Il!i><~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+    private static final String CHARS_LESS_SHADING = " .:-=+*#%@";
+    private static final String CHARS_MORE_SHADING = " .'`^\\\",:;Il!i><~+_-?][}{1)(|\\\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
 
     private final StartView startView = new StartView();
     private final ITTModel model;
     private final ITTView view;
+    private String shadingCharacters;
     private BufferedImage sourceImage;
 
     public Controller(ITTModel model, ITTView view) {
         this.model = model;
         this.view = view;
+        setShadingChars();
 
+        // set models
+        view.getScaleSlider().setModel(model.getScaleModel());
+        view.getFontSizeSpinner().setModel(model.getFontSizeModel());
+        view.getShadesComboBox().setModel(model.getShadesComboBoxModel());
+
+        // add listeners
         startView.getFileButton().addActionListener(e -> chooseFile());
         view.getCopyButton().addActionListener(e -> copyText());
+        view.getShadesComboBox().addItemListener(e -> setShadingChars());
 
         ChangeListener al = e -> showText(convertSourceToText());
         view.getScaleSlider().addChangeListener(al);
         view.getFontSizeSpinner().addChangeListener(al);
-
         view.getFontSizeSpinner().addChangeListener(e ->
                 view.getTextArea().setFont(view.getTextArea().getFont()
                         .deriveFont((float) model.getFontSize()))
@@ -38,6 +46,13 @@ public class Controller implements WindowListener {
         view.addWindowListener(this);
 
         startView.setVisible(true);
+    }
+
+    private void setShadingChars() {
+        var selection = (String) model.getShadesComboBoxModel().getSelectedItem();
+
+        shadingCharacters = selection.equals(ITTModel.SHADING_OPTION_LESS) ? CHARS_LESS_SHADING : CHARS_MORE_SHADING;
+        if (sourceImage != null) showText(convertSourceToText());
     }
 
     private void chooseFile() {
@@ -88,8 +103,8 @@ public class Controller implements WindowListener {
         for (int y = 0; y < height; y += 2) {
             for (int x = 0; x < width; x++) {
                 var fill = getFullness(image, x, y);
-                var index = (int) (fill * (CHARACTERS.length() - 1));
-                sb.append(CHARACTERS.charAt(index));
+                var index = (int) (fill * (shadingCharacters.length() - 1));
+                sb.append(shadingCharacters.charAt(index));
             }
             sb.append('\n');
         }
