@@ -2,21 +2,14 @@
 A simple graphical application that converts the selected image file (PNG, JPEG,
 or any type otherwise supported type by Java's [ImageIO] class) into ASCII
 characters. imageToText is written in Java with Swing, using the MVC design
-pattern. 
-
-## Jump to section
-* [Showcase](#showcase)
-   * [Defaults](#here-is-imagetotext-displaying-a-smiley-face-image-with-default-options)
-   * [Scale increased](#and-here-is-imagetotext-displaying-a-smiley-face-image-with-scale-increased)
-* [Building](#building-from-source)
-* [License](#license)
+pattern.
 
 ---
 ## Showcase
-#### _Here is ImageToText displaying a smiley face image with default options:_
+#### _ImageToText displaying a smiley face image with default options:_
 <img src="https://user-images.githubusercontent.com/76508651/230148573-d7555569-d800-415a-9132-91b709ee9b8f.jpeg" width="450em">
 
-#### _And here is ImageToText displaying a smiley face image with scale increased:_
+#### _ImageToText displaying a smiley face image with `scale` increased:_
 <img src="https://user-images.githubusercontent.com/76508651/230150548-747ad282-2058-4f5c-8394-f7b02dc172c4.jpeg" width="550em">
 
 ## Building from source
